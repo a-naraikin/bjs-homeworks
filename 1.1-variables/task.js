@@ -12,19 +12,22 @@ function averageMark(a, g, p) {
 
 	let taskResult = (algebra + geography + physics) / 3;
 
-	return taskResult; // ваш ответ; 
+	return taskResult; 
 }
 
 function sayHello(userName) {
 	let myName = userName;
 	let message = `Привет, мир! Меня зовут ${myName}`
 
-	return message; // ваш ответ;
+	return message;
 }
 
 function calculateFormula() {
-    
-	// реализуйте здесь задание №3
-    
-    return // ваш ответ;
+    let x = 2
+      , y = 22
+      , z = 0;
+
+    let result = x * y + 5 * z + x - 1;
+
+    return result;
 }
