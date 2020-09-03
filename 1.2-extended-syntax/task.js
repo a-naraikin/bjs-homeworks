@@ -23,8 +23,29 @@ function getResult(a, b, c){
 }
 
 function getAverageMark(marks){
-    // код для задачи №2 писать здесь
-    // return averageMark;
+	let averageMark = 0;
+	let arrayMark = marks;
+	
+	if (marks.length == 0) {
+		return averageMark;
+	}
+	
+	if (marks.length > 5) {
+		console.log("оценок: " + marks.length);  // да
+		arrayMark = marks.slice(0, 5)
+	}
+ 
+	if (marks.length > 0) {
+		let sum = 0;
+		for (let i = 0; i < arrayMark.length; i++) {
+			let element = arrayMark[i];
+			sum = sum + element;
+		}
+
+		averageMark = sum / arrayMark.length;
+	}
+	
+    return averageMark;
 }
 
 function askDrink(name,dateOfBirthday){
