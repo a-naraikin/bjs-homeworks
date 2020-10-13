@@ -76,3 +76,34 @@ function getAverageMark(marks){
     return sum / len;
 	}
 }
+
+console.log('\n=========== 3 Task ===========\n\n')
+
+function getPersonData(secretData){
+	let subjects = {};
+	
+	for (let nameSubject in secretData) {
+		if (nameSubject == 'aaa'){
+			subjects['firstName'] = getDecodedValue(secretData[nameSubject]);
+			delete subjects[nameSubject];
+		}
+		if (nameSubject == 'bbb'){
+			subjects['lastName'] = getDecodedValue(secretData[nameSubject]);
+			delete subjects[nameSubject];
+		}
+	}
+	
+	return subjects;
+}
+
+function getDecodedValue(secret){
+	if (secret == 0){
+		secret = "Родриго";
+	}
+	
+	if (secret == 1){
+		secret = "Эмильо";
+	}
+	
+	return secret;
+}
