@@ -37,5 +37,3 @@ function showSolutionsMessage(a, b, c){
 	
 	return;
 }
-
-showSolutionsMessage(7, 20, -3);
