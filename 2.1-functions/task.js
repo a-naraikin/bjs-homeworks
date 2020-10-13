@@ -37,3 +37,42 @@ function showSolutionsMessage(a, b, c){
 	
 	return;
 }
+
+console.log('\n=========== 2 Task ===========\n\n')
+
+function getAverageScore(data){	
+	let subjects = {};
+	let sumAverage = 0;
+	let countIterations = 0;
+	
+	for (let nameSubject in data) {
+		let averageScore = getAverageMark(data[nameSubject]);
+		
+		subjects[nameSubject] = averageScore;
+		sumAverage += averageScore;
+		countIterations++;
+	}
+	
+	if (!sumAverage){
+		subjects.average = 0;
+	} else {
+		subjects.average = sumAverage / countIterations;
+	}
+	
+	return subjects;
+}
+
+function getAverageMark(marks){
+  let averageMark = 0;
+  let len = marks.length;
+	
+  if (len == 0) {
+    return averageMark;
+  } else {
+		let sum = 0;
+    for (let i = 0; i < len; i++) {
+      sum += marks[i];
+    }
+    return sum / len;
+	}
+}
