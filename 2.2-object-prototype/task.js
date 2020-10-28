@@ -23,10 +23,25 @@ String.prototype.isPalindrome = function() {
 	return strOne === strTwo;
 };
 
-function getAverageMark(marks) {
-    // код для задачи №2 писать здесь
-    // return averageMark
-}
+console.log('\n=========== 2 Task ===========\n\n');
+
+function getAverageMark(marks){
+	let average = 0;
+	const len = marks.length;
+	
+	if (len == 0) {
+		return average;
+	} else {
+		let sum = 0;
+		for (let i = 0; i < len; i++) {
+			sum += marks[i];
+		}
+		average = sum / len;
+
+		const roundedAverage = Math.round(average);
+		return roundedAverage;
+	}
+};
 
 function checkBirthday(birthday) {
     // код для задачи №3 писать здесь
