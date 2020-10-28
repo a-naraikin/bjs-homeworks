@@ -43,7 +43,15 @@ function getAverageMark(marks){
 	}
 };
 
+console.log('\n=========== 3 Task ===========\n\n');
+
 function checkBirthday(birthday) {
-    // код для задачи №3 писать здесь
-    // return verdict
-}
+    const now = Date.now();
+
+	birthday = +new Date(birthday);
+
+    let diff = now - birthday;
+    let age = diff / 86400000 / 365.25;
+
+	return age >= 18;
+};
