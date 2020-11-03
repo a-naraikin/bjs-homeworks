@@ -123,3 +123,53 @@ class Library {
 		return null;
   }	
 }
+
+console.log("\n----------- 3 task -----------\n\n");
+
+class StudentLog {
+  constructor(name){
+		this.name = name;
+		this.subjects = {};
+  }
+	
+  getName() {
+		return this.name;
+  }
+	
+  addGrade(grade, subject) {
+		if (grade <= 0 || grade > 5 || typeof grade != "number")  {
+	  	console.log(`Вы пытались поставить оценку "${grade}" по предмету "${subject}". Допускаются только числа от 1 до 5.`);
+	  	return 0;
+		} 
+		
+		if(!this.subjects[subject]) {
+	  	this.subjects[subject] = [];
+		}
+		
+		this.subjects[subject].push(grade);
+		return this.subjects[subject].length;
+  }
+
+  getAverageBySubject(subject){
+		if(!this.subjects[subject]) {
+	  	return 0;
+		}
+		
+    let len = this.subjects[subject].length;
+		let sum = 0;
+		for (let i = 0; i < len; i++) {
+	  	sum += this.subjects[subject][i];
+		}
+		return sum / len;
+  }
+	
+  getTotalAverage() {
+		let count = 0;
+		let averageSum = 0;
+		for(let key in this.subjects) {
+	  	averageSum += this.getAverageBySubject(key);
+	  	count++;
+		}
+		return averageSum/count;
+  }
+}
