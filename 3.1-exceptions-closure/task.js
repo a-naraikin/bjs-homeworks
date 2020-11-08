@@ -4,8 +4,7 @@ console.log('\n ----------- 1 task ----------- \n\n');
 
 function parseCount(value){
   if (isNaN(value)) {
-    let err = new Error("Невалидное значение");
-    throw err;
+    throw new Error("Невалидное значение");
   }
 	
   return Number.parseInt(value, 10);
@@ -26,8 +25,7 @@ class Triangle{
   constructor(a, b, c){
     const isExistTriangle = a + b > c && a + c > b && b + c > a;
     if (!isExistTriangle) {
-      let err = new Error("Треугольник с такими сторонами не существует")
-      throw err;
+      throw new Error("Треугольник с такими сторонами не существует")
     }
 		
     this.a = a;
@@ -36,8 +34,7 @@ class Triangle{
   }
 	
   getPerimeter() {
-    const perimeter = this.a + this.b + this.c;
-    return perimeter;
+    return this.a + this.b + this.c;
   }
 	
   getArea() {
