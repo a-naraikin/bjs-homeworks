@@ -47,15 +47,13 @@ class Triangle{
   }
 }
 
-class ErrorTriangele {
-  getPerimeter() { return "Ошибка! Треугольник не существует"; }
-  getArea() { return "Ошибка! Треугольник не существует"; }
-}
-
 function getTriangle(a, b, c){
   try{
     return new Triangle(a, b, c);
   } catch(err){
-    return new ErrorTriangele();
+    return {
+      getPerimeter() { return "Ошибка! Треугольник не существует"; },
+      getArea() { return "Ошибка! Треугольник не существует"; }
   }
+}
 }
