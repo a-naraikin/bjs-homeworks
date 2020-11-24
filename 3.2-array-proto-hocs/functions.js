@@ -114,3 +114,22 @@ function memorize(fn, limit){
 }
 
 const mSum = memorize(sum, 5);
+
+//----------- 3 task -----------
+
+function testFunction(array){
+	for (let i = 0; i < 100; i++) {
+		array.forEach(function(element){
+			return mSum(...element);
+		});
+	};
+}
+
+function testCase(testFunction, nameTaimer){
+	console.time(nameTaimer);
+	console.timeEnd(nameTaimer);
+}
+
+const arr = [ [1,2,3], [1,2], [1,2,3], [1,2], [9,5,2,4] ];
+
+testCase(arr, "Время выполнения");
