@@ -60,3 +60,57 @@ function getValuestCountToSumValues(arr, sum){
 	
 	return len;
 }
+
+//----------- 2 task -----------
+
+function sleep(milliseconds){
+  let e = new Date().getTime() + milliseconds;
+  while (new Date().getTime() <= e) {}
+}
+
+function sum(...args) {
+  // Замедление на половину секунды.
+  //sleep(100); // Можно использовать другое значение замедления.
+  return args.reduce((sum, arg) => {
+    return sum += +arg;
+  }, 0);
+}
+
+function compareArrays(arr1, arr2){
+	if (arr1.length !== arr2.length){
+		return false; 
+	}
+	
+	function fun(elem, index){
+		return arr2.find((el, ind) => elem === el && index === ind);
+	}	
+	return arr1.every(fun);
+}
+ 
+function memorize(fn, limit){
+	const memory = [];
+
+	function inner(...args) {
+		let results = memory.find(function(elem){
+			if (compareArrays(elem.args, args) == true) {
+				return elem;
+			}
+		});
+		
+		if(results == null) {	
+			memory.push({args: args, result: fn(...args)});
+			
+			if(memory.length > limit) { 
+				memory.shift(); 
+			}
+			
+			return memory[memory.length - 1].result;
+		} else {
+			return results.result;
+		}
+	}
+	
+	return inner;
+}
+
+const mSum = memorize(sum, 5);
