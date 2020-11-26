@@ -12,21 +12,11 @@ const weapons = [
 ];
 
 function getNames(){
-  return weapons.map(function(elem){
-    return elem.name;
-  });
+  return weapons.map(elem => elem.name);
 }
 
 function getCountReliableWeapons(element) {
-  let arrDurability = [];
-	
-  weapons.filter(function(elem){
-    if (element < elem.durability){
-      arrDurability.push(elem.durability);
-    }
-  });
-	
-  return arrDurability.length;
+  return weapons.filter(elem => element < elem.durability).length;
 }
 
 function hasReliableWeapons(element){
@@ -40,25 +30,20 @@ function getReliableWeaponsNames(element){
 }
 
 function getTotalDamage(){
-  let arrAttack = 0;
-	
-  weapons.filter(elem => arrAttack += elem.attack);
-	
-  return arrAttack;
+  return weapons.reduce((sum, current) => sum + current.attack, 0);
 }
 	
-function getValuestCountToSumValues(arr, sum){
-  let sumNumbers = 0;
-  let len = 0;
+function getValuestCountToSumValues(arr, number){
+  let sumNumbers = {sum: 0, len: 0};
 	
-  arr.map(function(elem){
-    if(sum > sumNumbers){
-      sumNumbers += elem;
-      len++;
+  arr.reduce(function(elem, current){
+    if(sumNumbers.sum < number){
+      sumNumbers.len++
+      return sumNumbers.sum = elem + current
     }
-  });
+  }, 0);
 	
-  return len;
+  return sumNumbers.len;
 }
 
 //----------- 2 task -----------
@@ -70,64 +55,52 @@ function sleep(milliseconds){
 
 function sum(...args) {
   // Замедление на половину секунды.
-  //sleep(100); // Можно использовать другое значение замедления.
+  sleep(100); // Можно использовать другое значение замедления.
   return args.reduce((sum, arg) => {
-    return sum += +arg;
+    return sum += arg;
   }, 0);
 }
 
 function compareArrays(arr1, arr2){
-  if (arr1.length !== arr2.length){
-    return false; 
-  }
-	
-  function fun(elem, index){
-    return arr2.find((el, ind) => elem === el && index === ind);
-  }	
-  return arr1.every(fun);
+  return arr1.length === arr2.length && arr1.every((elem, index) => elem === arr2[index]);
 }
  
 function memorize(fn, limit){
   const memory = [];
 
-  function inner(...args) {
-    let results = memory.find(function(elem){
-      if (compareArrays(elem.args, args) == true) {
-        return elem;
-      }
-    });
+  return function(...args) {
+    let results = memory.find(elem => compareArrays(elem.args, args));
 		
-    if(results == null) {	
-      memory.push({args: args, result: fn(...args)});		
-      if(memory.length > limit) { 
-        memory.shift(); 
-      }		
-      return memory[memory.length - 1].result;
-    } else {
+    if(results){
       return results.result;
     }
+	  
+    let sum = fn(...args);
+    memory.push({args: args, result: sum});
+		
+    if(memory.length > limit) { 
+      memory.shift(); 
+    }
+			
+    return sum;
   }
-	
-  return inner;
 }
 
 const mSum = memorize(sum, 5);
 
 //----------- 3 task -----------
 
-function testFunction(array){
-  for (let i = 0; i < 100; i++) {
-    array.forEach(function(element){
-      return mSum(...element);
-    });
-  };
-}
-
-function testCase(testFunction, nameTaimer){
+function testCase(testFunction, arr, nameTaimer){
   console.time(nameTaimer);
+	
+  for (let i = 0; i < 100; i++) {
+    arr.forEach(element => testFunction(element));
+  };
+	
   console.timeEnd(nameTaimer);
 }
 
-const arr = [ [1,2,3], [1,2], [1,2,3], [1,2], [9,5,2,4] ];
+const arr = [ [1,2,3], [1,2], [1,2,3, 8,9999, 9999, 99999 ], [1,2], [9,5,2,4] ];
 
-testCase(arr, "Время выполнения");
+testCase(sum, arr, "Время выполнения sum");
+testCase(mSum, arr, "Время выполнения mSum");
