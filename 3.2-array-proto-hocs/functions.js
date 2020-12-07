@@ -3,62 +3,47 @@ console.clear();
 //----------- 1 task -----------
 
 const weapons = [
-	new Knife(), 
-	new Staff(), 
-	new Axe(), 
-	new StormStaff(), 
-	new LongBow(), 
-	new Bow()
+  new Knife(), 
+  new Staff(), 
+  new Axe(), 
+  new StormStaff(), 
+  new LongBow(), 
+  new Bow()
 ];
 
 function getNames(){
-	return weapons.map(function(elem){
-		return elem.name;
-	});
+  return weapons.map(elem => elem.name);
 }
 
 function getCountReliableWeapons(element) {
-	let arrDurability = [];
-	
-	weapons.filter(function(elem){
-		if (element < elem.durability){
-			arrDurability.push(elem.durability);
-		}
-	});
-	
-	return arrDurability.length;
+  return weapons.filter(elem => element < elem.durability).length;
 }
 
 function hasReliableWeapons(element){
-	return weapons.some(elem => element < elem.durability);
+  return weapons.some(elem => element < elem.durability);
 }
 
 function getReliableWeaponsNames(element){
-	return weapons
-		.filter(elem => element < elem.durability)
-		.map(elem => elem.name);
+  return weapons
+    .filter(elem => element < elem.durability)
+    .map(elem => elem.name);
 }
 
 function getTotalDamage(){
-	let arrAttack = 0;
-	
-	weapons.filter(elem => arrAttack += elem.attack);
-	
-	return arrAttack;
+  return weapons.reduce((sum, current) => sum + current.attack, 0);
 }
 	
-function getValuestCountToSumValues(arr, sum){
-	let sumNumbers = 0;
-	let len = 0;
+function getValuestCountToSumValues(arr, number){
+  let sumNumbers = {sum: 0, len: 0};
 	
-	arr.map(function(elem){
-		if(sum > sumNumbers){
-			sumNumbers += elem;
-			len++;
-		}
-	});
+  arr.reduce(function(elem, current){
+    if(sumNumbers.sum < number){
+      sumNumbers.len++
+      return sumNumbers.sum = elem + current
+    }
+  }, 0);
 	
-	return len;
+  return sumNumbers.len;
 }
 
 //----------- 2 task -----------
@@ -72,64 +57,74 @@ function sum(...args) {
   // Замедление на половину секунды.
   //sleep(100); // Можно использовать другое значение замедления.
   return args.reduce((sum, arg) => {
-    return sum += +arg;
+    return sum += arg;
   }, 0);
 }
 
 function compareArrays(arr1, arr2){
-	if (arr1.length !== arr2.length){
-		return false; 
-	}
-	
-	function fun(elem, index){
-		return arr2.find((el, ind) => elem === el && index === ind);
-	}	
-	return arr1.every(fun);
+  return arr1.length === arr2.length && arr1.every((elem, index) => elem === arr2[index]);
 }
  
 function memorize(fn, limit){
-	const memory = [];
+  const memory = [];
 
-	function inner(...args) {
-		let results = memory.find(function(elem){
-			if (compareArrays(elem.args, args) == true) {
-				return elem;
-			}
-		});
+  return function(...args) {
+    let results = memory.find(elem => compareArrays(elem.args, args));
 		
-		if(results == null) {	
-			memory.push({args: args, result: fn(...args)});
+    if(results){
+      return results.result;
+    }
+	  
+    let sum = fn(...args);
+    memory.push({args: args, result: sum});
+		
+    if(memory.length > limit) { 
+      memory.shift(); 
+    }
 			
-			if(memory.length > limit) { 
-				memory.shift(); 
-			}
-			
-			return memory[memory.length - 1].result;
-		} else {
-			return results.result;
-		}
-	}
-	
-	return inner;
+    return sum;
+  }
 }
 
 const mSum = memorize(sum, 5);
 
 //----------- 3 task -----------
 
-function testFunction(array){
-	for (let i = 0; i < 100; i++) {
-		array.forEach(function(element){
-			return mSum(...element);
-		});
-	};
+function testCase(testFunction, arr, nameTaimer){
+  console.time(nameTaimer);
+	
+  for (let i = 0; i < 100; i++) {
+    arr.forEach(element => testFunction(element));
+  };
+	
+  console.timeEnd(nameTaimer);
 }
 
-function testCase(testFunction, nameTaimer){
-	console.time(nameTaimer);
-	console.timeEnd(nameTaimer);
-}
+const arr = [ [1,2,3], [1,2], [1,2,3, 8,9999, 9999, 99999 ], [1,2], [9,5,2,4] ];
 
-const arr = [ [1,2,3], [1,2], [1,2,3], [1,2], [9,5,2,4] ];
+testCase(sum, arr, "Время выполнения sum");
+testCase(mSum, arr, "Время выполнения mSum");
 
-testCase(arr, "Время выполнения");
+
+
+/*
+без задержки:
+	Время выполнения sum: 0.679931640625 ms
+	Время выполнения mSum: 0.933837890625 ms
+	-
+	Время выполнения sum: 1.206298828125 ms
+	Время выполнения mSum: 1.39208984375 ms
+	-
+	Время выполнения sum: 0.549072265625 ms
+	Время выполнения mSum: 2.08203125 ms
+	
+с задержкой:
+	Время выполнения sum: 50611.31005859375 ms
+	Время выполнения mSum: 506.194091796875 ms
+	-
+	Время выполнения sum: 50501.487060546875 ms
+	Время выполнения mSum: 504.97119140625 ms
+	-
+	Время выполнения sum: 50503.086181640625 ms
+	Время выполнения mSum: 505.307861328125 ms
+*/
